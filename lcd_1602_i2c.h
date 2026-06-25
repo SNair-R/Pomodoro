@@ -44,6 +44,8 @@ static int addr = 0x27;
 #define MAX_LINES      2
 #define MAX_CHARS      16
 
+#define BUTTON_PIN 16
+
 void i2c_write_byte(uint8_t val);
 void lcd_toggle_enable(uint8_t val);
 void lcd_send_byte(uint8_t val, int mode);

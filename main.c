@@ -23,6 +23,7 @@ int main() {
     gpio_set_function(PICO_I2C_SCL_PIN, GPIO_FUNC_I2C);
     gpio_pull_up(PICO_I2C_SDA_PIN);
     gpio_pull_up(PICO_I2C_SCL_PIN);
+    gpio_pull_up(BUTTON_PIN)
     // Make the I2C pins available to picotool
     bi_decl(bi_2pins_with_func(PICO_I2C_SDA_PIN, PICO_I2C_SCL_PIN, GPIO_FUNC_I2C));
 
