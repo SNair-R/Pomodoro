@@ -11,8 +11,8 @@
 #include "pico/binary_info.h"
 #include "lcd_1602_i2c.h"
 
-uint64_t last_press_time = 0;
-const uint64_t DEBOUNCE_US = 30000; // microseconds so this is 30 ms
+bool button_press = false;
+bool press = false;
 
 /* Example code to drive a 16x2 LCD panel via a I2C bridge chip (e.g. PCF8574)
 
@@ -89,16 +89,16 @@ void lcd_init() {
     lcd_clear();
 }
 
+
 int check_input()
 {
-    if(gpio_get(BUTTON_PIN) == 0)
-    {
-        uint64_t now = time_us_64();
-        if (now - last_press_time > DEBOUNCE_US)
+
+    press = !gpio_get(BUTTON_PIN);
+        if (press && !button_press)
         {
-            last_press_time = now;
+            button_press = press;
             return 1;
         }
-    }
-    return 0;
+        button_press = press;
+        return 0;
 }
