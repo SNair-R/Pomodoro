@@ -11,7 +11,7 @@ set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
 add_executable(Pomodoro
     main.c
-    lcd_1602_i2c.c
+    Pomodoro.c
 )
 
 
