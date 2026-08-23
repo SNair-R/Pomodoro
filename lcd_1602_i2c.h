@@ -44,7 +44,11 @@ static int addr = 0x27;
 #define MAX_LINES      2
 #define MAX_CHARS      16
 
+#define PICO_I2C_SDA_PIN 14
+#define PICO_I2C_SCL_PIN 15
+#define READER_PIN 28
 #define BUTTON_PIN 16
+
 
 void i2c_write_byte(uint8_t val);
 void lcd_toggle_enable(uint8_t val);
@@ -54,5 +58,6 @@ void lcd_set_cursor(int line, int position);
 static inline void lcd_char(char val);
 void lcd_string(const char *s);
 void lcd_init();
+int check_input();
 
 #endif
