@@ -48,6 +48,7 @@ static int addr = 0x27;
 #define PICO_I2C_SCL_PIN 15
 #define READER_PIN 28
 #define BUTTON_PIN 16
+#define BUZZER_PIN 13
 
 
 void i2c_write_byte(uint8_t val);
@@ -59,5 +60,6 @@ static inline void lcd_char(char val);
 void lcd_string(const char *s);
 void lcd_init();
 int check_input();
+void buzz(uint32_t wrap, uint32_t lvl, uint32_t length);
 
 #endif

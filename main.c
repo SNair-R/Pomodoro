@@ -5,6 +5,7 @@
 #include "pomodoro.h"
 #include "pico/binary_info.h"
 #include "hardware/adc.h"
+#include "hardware/pwm.h"
 
 void intro(void)
 {
@@ -49,6 +50,7 @@ int main()
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN); // in lets me just read the V on the pin it becomes passive
     gpio_pull_up(BUTTON_PIN);
+    gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
 
     intro();
 

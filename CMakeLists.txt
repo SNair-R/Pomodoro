@@ -21,6 +21,7 @@ target_link_libraries(Pomodoro
     pico_stdlib
     hardware_i2c
     hardware_adc
+    hardware_pwm
 )
 
 pico_enable_stdio_usb(Pomodoro 1)

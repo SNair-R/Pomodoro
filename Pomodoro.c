@@ -10,6 +10,7 @@
 #include "hardware/i2c.h"
 #include "pico/binary_info.h"
 #include "pomodoro.h"
+#include "hardware/pwm.h"
 
 bool button_press = false;
 bool press = false;
@@ -101,4 +102,13 @@ int check_input()
         }
         button_press = press;
         return 0;
+}
+void buzz(uint32_t wrap, uint32_t lvl, uint32_t length)
+{
+    uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+    pwm_set_wrap(slice_num, wrap);
+    pwm_set_chan_level(slice_num, pwm_gpio_to_channel(BUZZER_PIN), length);
+    pwm_set_enabled(slice_num, true);
+    sleep_ms(length);
+    pwm_set_enabled(slice_num, false);
 }
