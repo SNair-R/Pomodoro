@@ -9,7 +9,7 @@
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
 #include "pico/binary_info.h"
-#include "lcd_1602_i2c.h"
+#include "pomodoro.h"
 
 bool button_press = false;
 bool press = false;
