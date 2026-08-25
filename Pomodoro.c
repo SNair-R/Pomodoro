@@ -32,11 +32,13 @@ bool press = false;
 */
 
 /* Quick helper function for single byte transfers */
-void i2c_write_byte(uint8_t val) {
+void i2c_write_byte(uint8_t val)
+{
     i2c_write_blocking(i2c1, addr, &val, 1, false);
 }
 
-void lcd_toggle_enable(uint8_t val) {
+void lcd_toggle_enable(uint8_t val)
+{
     // Toggle enable pin on LCD display
     // We cannot do this too quickly or things don't work
 #define DELAY_US 600
@@ -48,7 +50,8 @@ void lcd_toggle_enable(uint8_t val) {
 }
 
 // The display is sent a byte as two separate nibble transfers
-void lcd_send_byte(uint8_t val, int mode) {
+void lcd_send_byte(uint8_t val, int mode)
+{
     uint8_t high = mode | (val & 0xF0) | LCD_BACKLIGHT;
     uint8_t low = mode | ((val << 4) & 0xF0) | LCD_BACKLIGHT;
 
@@ -58,27 +61,33 @@ void lcd_send_byte(uint8_t val, int mode) {
     lcd_toggle_enable(low);
 }
 
-void lcd_clear(void) {
+void lcd_clear(void)
+{
     lcd_send_byte(LCD_CLEARDISPLAY, LCD_COMMAND);
 }
 
 // go to location on LCD
-void lcd_set_cursor(int line, int position) {
+void lcd_set_cursor(int line, int position)
+{
     int val = (line == 0) ? 0x80 + position : 0xC0 + position;
     lcd_send_byte(val, LCD_COMMAND);
 }
 
-static inline void lcd_char(char val) {
+static inline void lcd_char(char val)
+{
     lcd_send_byte(val, LCD_CHARACTER);
 }
 
-void lcd_string(const char *s) {
-    while (*s) {
+void lcd_string(const char *s)
+{
+    while (*s)
+    {
         lcd_char(*s++);
     }
 }
 
-void lcd_init() {
+void lcd_init()
+{
     lcd_send_byte(0x03, LCD_COMMAND);
     lcd_send_byte(0x03, LCD_COMMAND);
     lcd_send_byte(0x03, LCD_COMMAND);
@@ -90,18 +99,17 @@ void lcd_init() {
     lcd_clear();
 }
 
-
 int check_input()
 {
 
     press = !gpio_get(BUTTON_PIN);
-        if (press && !button_press)
-        {
-            button_press = press;
-            return 1;
-        }
+    if (press && !button_press)
+    {
         button_press = press;
-        return 0;
+        return 1;
+    }
+    button_press = press;
+    return 0;
 }
 void buzz(uint32_t wrap, uint32_t lvl, uint32_t length)
 {
@@ -111,4 +119,41 @@ void buzz(uint32_t wrap, uint32_t lvl, uint32_t length)
     pwm_set_enabled(slice_num, true);
     sleep_ms(length);
     pwm_set_enabled(slice_num, false);
+}
+
+void timer(int tot_sec)
+{
+    uint32_t current_time = to_ms_since_boot(get_absolute_time());
+    uint32_t base_time = to_ms_since_boot(get_absolute_time());
+
+    char buf5[17];
+    int min_left = tot_sec / 60;
+    int sec_left = tot_sec % 60;
+    snprintf(buf5, sizeof(buf5), "%2d:%02d", min_left, sec_left);
+    lcd_set_cursor(1, 6);
+    lcd_string(buf5);
+    while (tot_sec > 0)
+    {
+        current_time = to_ms_since_boot(get_absolute_time());
+
+        if ((current_time - base_time) >= 1000)
+        {
+            tot_sec -= 1;
+
+            if (sec_left == 0)
+            {
+                sec_left = 59;
+                min_left -= 1;
+            }
+            else
+            {
+                sec_left -= 1;
+            }
+            snprintf(buf5, sizeof(buf5), "%2d:%02d", min_left, sec_left);
+            lcd_set_cursor(1, 6);
+            lcd_string(buf5);
+
+            base_time += 1000;
+        }
+    }
 }
