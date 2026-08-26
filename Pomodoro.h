@@ -61,5 +61,6 @@ void lcd_string(const char *s);
 void lcd_init();
 int check_input();
 void buzz(uint32_t wrap, uint32_t lvl, uint32_t length);
-void timer(int tot_sec);
+void timer(int tot_sec, int mode);
+void time_name(int mode);
 #endif

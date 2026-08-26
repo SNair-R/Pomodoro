@@ -115,16 +115,39 @@ void buzz(uint32_t wrap, uint32_t lvl, uint32_t length)
 {
     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
     pwm_set_wrap(slice_num, wrap);
-    pwm_set_chan_level(slice_num, pwm_gpio_to_channel(BUZZER_PIN), length);
+    pwm_set_chan_level(slice_num, pwm_gpio_to_channel(BUZZER_PIN), lvl);
     pwm_set_enabled(slice_num, true);
     sleep_ms(length);
     pwm_set_enabled(slice_num, false);
 }
 
-void timer(int tot_sec)
+void time_name(int mode)
+{
+    char time_n[17];
+    switch(mode)
+    {
+        case 1:
+            snprintf(time_n, sizeof(time_n), "Study Time");
+            break;
+        case 2:
+            snprintf(time_n, sizeof(time_n), "Chill Time");
+            break;
+        case 3:
+            snprintf(time_n, sizeof(time_n), "Relax Time");
+            break;
+    }
+
+    lcd_clear();
+    lcd_set_cursor(0, 3);
+    lcd_string(time_n);
+}
+
+void timer(int tot_sec, int mode)
 {
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
     uint32_t base_time = to_ms_since_boot(get_absolute_time());
+
+    time_name(mode);
 
     char buf5[17];
     int min_left = tot_sec / 60;
