@@ -1,5 +1,5 @@
-#ifndef LCD_1602_I2C_H
-#define LCD_1602_I2C_H
+#ifndef POMODORO_H
+#define POMODORO_H
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
