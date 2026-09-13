@@ -2,8 +2,8 @@
 
 A hardware Pomodoro timer built on a Raspberry Pi Pico W, with an I2C LCD display, a potentiometer for setting durations, a pushbutton for navigation, and a piezo buzzer for alerts.
 
-<img width="3024 / 2" height="4032/ 4" alt="pomodoro_timer" src="https://github.com/user-attachments/assets/f767423c-edab-4d52-b0d8-9ab194a8ba43" />
-   
+<img width="50%" alt="pomodoro_timer" src="https://github.com/user-attachments/assets/31ea98a7-f003-49e7-974f-c92dd9146dcb" />
+
 ## Overview
 
 This device runs a full 4-cycle Pomodoro session:
